@@ -3,10 +3,8 @@ use std::env;
 use authentication::auth_client::AuthClient;
 use authentication::{SignInRequest, SignOutRequest, SignUpRequest};
 use tokio::time::{Duration, sleep};
-use tonic::{Request, Response};
+use tonic::Request;
 use uuid::Uuid;
-
-use crate::authentication::{SignInResponse, SignOutResponse, SignUpResponse, StatusCode};
 
 pub mod authentication {
     tonic::include_proto!("authentication");
@@ -25,7 +23,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let password: String = Uuid::new_v4().to_string();
 
     loop {
-        let request = tonic::Request::new(SignUpRequest {
+        let request = Request::new(SignUpRequest {
             username: username.clone(),
             password: password.clone(),
         });
@@ -35,7 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // ---------------------------------------------
 
-        let request = tonic::Request::new(SignInRequest {
+        let request = Request::new(SignInRequest {
             username: username.clone(),
             password: password.clone(),
         });
@@ -45,7 +43,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // ---------------------------------------------
 
-        let request = tonic::Request::new(SignOutRequest {
+        let request = Request::new(SignOutRequest {
             session_token: response.session_token,
         });
 
