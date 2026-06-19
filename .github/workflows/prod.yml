@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Install protoc
-        uses: arduino/setup-protoc@v3
+        uses: step-security/setup-protoc@v3
 
       - name: Checkout code
         uses: actions/checkout@v7
