@@ -1,0 +1,12 @@
+# Stage 1: Build the application
+FROM rust:alpine AS builder
+RUN apk add --no-cache musl-dev
+RUN apk add --no-cache protoc
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin auth
+
+# Stage 2: Create the minimal runtime image
+FROM scratch
+COPY --from=builder /app/target/release/auth /auth
+ENTRYPOINT ["/auth"]
